@@ -1,18 +1,92 @@
 body {
- color: rgb(255, 255, 255);
- background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/42818355-8-bits-pixel-grafico-azul-ceu-fundo-com-nuvens-vetor.jpg!');
-  
+    color: #000000;
+    background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/42818355-8-bits-pixel-grafico-azul-ceu-fundo-com-nuvens-vetor.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
 }
+
+.card {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: rgba(252, 249, 249, 0.986);
+    padding: 30px;
+    border-radius: 20px;
+    color: #070606;
+    border: 2px solid #131616; 
+    transition: 0.4s;
+    box-shadow: 0 0 10px #00ffff40;
+}
+
+
+.card:hover {
+    box-shadow:
+        0 0 10px  #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff,
+        0 0 60px #00ffff;
+    transform: scale(1.03);
+    border-color:  #00ffff ;
+}
+
+
 h1 {
-    text-align: center;    
-}
-button {
     text-align: center;
-    display: block;
-    margin: 0 auto;
+    font-size: 36px;
+    margin-bottom: 20px;
 }
+
+h2 {
+    margin-top: 20px;
+    color: #000000; 
+}
+
+h3 {
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    padding: 12px 25px;
+    font-size: 18px;
+    color: #f6fcfc;
+    background: black;
+    border: 2px solid #f5f7f7;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.4s;
+    box-shadow: 0 0 10px #00ffff40;
+}
+
+
+button:hover {
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 30px #00ffff,
+        0 0 50px #00ffff;
+    background-color: #000;
+    color: #fff;
+}
+
+
 footer {
     text-align: center;
-    margin-top: 20px;
-    color: rgb(255, 255, 255);
+    padding: 20px;
+    color: rgb(17, 16, 16);
+}
+.card:hover {
+    border: 2px solid #fcfcfc; 
+    transform: scale(1.02); 
+
+}
+button:hover {
+    background-color: #fff;
+    color: #00ccff;
+    border-color: #00ccff;
+    transform: scale(1.05);
 }
