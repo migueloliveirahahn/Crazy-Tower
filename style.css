@@ -3,7 +3,7 @@ body {
     background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/42818355-8-bits-pixel-grafico-azul-ceu-fundo-com-nuvens-vetor.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    font-family: sans-serif;
+    font-family: Arial, Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -61,8 +61,6 @@ button {
     transition: 0.4s;
     box-shadow: 0 0 10px #00ffff40;
 }
-
-
 button:hover {
     box-shadow:
         0 0 10px #00ffff,
@@ -89,4 +87,38 @@ button:hover {
     color: #00ccff;
     border-color: #00ccff;
     transform: scale(1.05);
+}
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #0f0f0f;
+  overflow: hidden;
+  display: flex;
+}
+
+.navbar li {
+  flex: 1;
+}
+
+.navbar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+
+
+  border: 2px solid transparent;
+  border-radius: 8px;
+  margin: 6px;
+  transition: all 0.3s ease;
+}
+
+.navbar li a:hover {
+  background-color: #000000;
+
+
+  border-color: #00f0ff;
+  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
 }
