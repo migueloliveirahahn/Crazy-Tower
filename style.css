@@ -1,46 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     color: #000000;
     background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/42818355-8-bits-pixel-grafico-azul-ceu-fundo-com-nuvens-vetor.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    font-family: sans-serif;
+    font-family: 'Press Start 2P', cursive;
     margin: 0;
     padding: 0;
+    image-rendering: pixelated;
+    background-position: 0 0;
+    animation: skyScroll 60s linear infinite;
+    cursor: url('https://cur.cursors-4u.net/games/gam-10/gam964.cur'), auto;
+}
+
+@keyframes skyScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: -1000px 0; }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.05),
+        rgba(0, 0, 0, 0.05) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 999;
 }
 
 .card {
     max-width: 800px;
     margin: 20px auto;
-    background-color: rgba(252, 249, 249, 0.986);
+    background-color: rgba(255, 255, 255, 0.986);
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 0;
     color: #070606;
-    border: 2px solid #131616; 
+    border: 4px solid #000;
     transition: 0.4s;
-    box-shadow: 0 0 10px #00ffff40;
+    box-shadow:
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+    image-rendering: pixelated;
 }
-
 
 .card:hover {
     box-shadow:
-        0 0 10px  #00ffff,
-        0 0 20px #00ffff,
-        0 0 40px #00ffff,
-        0 0 60px #00ffff;
-    transform: scale(1.03);
-    border-color:  #00ffff ;
+        0 0 10px #00ffe1,
+        0 0 20px #00ffe1,
+        0 0 40px #00ffe1,
+        0 0 60px #00ffe1;
+    transform: scale(1.05);
+    border-color: #00ffe1;
 }
 
+.img-centralizada {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
 
 h1 {
     text-align: center;
     font-size: 36px;
     margin-bottom: 20px;
+    text-shadow:
+        3px 3px #000,
+        -2px 0 #00ffff,
+        2px 0 #ff00ff;
 }
 
 h2 {
     margin-top: 20px;
-    color: #000000; 
+    color: #000000;
 }
 
 h3 {
@@ -60,33 +103,59 @@ button {
     cursor: pointer;
     transition: 0.4s;
     box-shadow: 0 0 10px #00ffff40;
+    animation: blink 1s infinite;
 }
 
-
 button:hover {
+    background-color: #fff;
+    color: #00ccff;
+    border-color: #00ccff;
+    transform: scale(1.05);
     box-shadow:
         0 0 10px #00ffff,
         0 0 20px #00ffff,
         0 0 30px #00ffff,
         0 0 50px #00ffff;
-    background-color: #000;
-    color: #fff;
 }
 
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
 
 footer {
     text-align: center;
     padding: 20px;
     color: rgb(17, 16, 16);
 }
-.card:hover {
-    border: 2px solid #fcfcfc; 
-    transform: scale(1.02); 
 
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    overflow: hidden;
+    display: flex;
 }
-button:hover {
-    background-color: #fff;
-    color: #00ccff;
-    border-color: #00ccff;
-    transform: scale(1.05);
+ 
+.navbar li {
+    flex: 1;
+}
+
+.navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    margin: 6px;
+    transition: all 0.3s ease;
+}
+
+.navbar li a:hover {
+    background-color: #000000;
+    border-color: #00f0ff;
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
 }
