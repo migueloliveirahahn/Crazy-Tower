@@ -148,7 +148,7 @@ function update() {
 
     // Pulo
     if ((cursors.up.isDown || spaceKey.isDown) && player.body.blocked.down) {
-        player.setVelocityY(-500);
+        player.setVelocityY(-525);
     }
 
     // Game over se cair da tela
