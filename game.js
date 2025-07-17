@@ -34,10 +34,8 @@ function preload() {
     this.load.image('background', 'assets/fundo.jpeg');
     this.load.image('platform', 'assets/Plataforma.jpeg');
     this.load.image('player', 'assets/idle.gif');
-    this.load.image('button', 'assets/Button.jpeg');
-
-    // Imagem única de game over/restart
-    this.load.image('restartBanner', 'assets/Restart.png');
+    // Carregue a imagem Restart.png como botão
+    this.load.image('restartButton', 'assets/Restart.png');
 }
 
 function create() {
@@ -103,13 +101,11 @@ function create() {
         fill: '#ffcc00'
     }).setScrollFactor(0);
 
-    // REMOVIDO gameOverText
-
-    restartButton = this.add.image(200, 340, 'button')
+    restartButton = this.add.image(200, 340, 'restartButton')
         .setInteractive()
         .setVisible(false)
         .setScrollFactor(0)
-        .setScale(0.6)
+        .setScale(0.3)  // ajuste o tamanho para ficar bom
         .setDepth(999);
 
     restartButton.on('pointerdown', () => {
@@ -124,12 +120,7 @@ function create() {
         }
     });
 
-    // Imagem única para Game Over (diminuída)
-    gameOverImage = this.add.image(200, 300, 'restartBanner')
-        .setVisible(false)
-        .setScrollFactor(0)
-        .setScale(0.35)  // diminui o tamanho da imagem
-        .setDepth(999);
+    // Removi o gameOverImage, usando só o botão como feedback visual
 
     recordText = this.add.text(200, 230, '🏆 Recorde!', {
         font: '26px Consolas',
@@ -210,9 +201,8 @@ function resetGameState() {
     score = 0;
     maxY = 0;
     gameOver = false;
-    // REMOVIDO gameOverText.setVisible
+
     restartButton.setVisible(false);
-    gameOverImage.setVisible(false);
     recordText.setVisible(false);
 }
 
@@ -223,10 +213,7 @@ function triggerGameOver(scene) {
     player.setVelocity(0, 0);
     player.body.enable = false;
 
-    // REMOVIDO gameOverText
-
     restartButton.setVisible(true);
-    gameOverImage.setVisible(true);
 
     if (score > highScore) {
         highScore = score;
