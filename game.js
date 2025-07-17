@@ -6,7 +6,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 1000 },
-            debug: false // Coloque true se quiser ver hitboxes
+            debug: false
         }
     },
     scene: {
@@ -23,15 +23,21 @@ let score = 0;
 let scoreText, highScoreText;
 let maxY = 0;
 let gameOver = false;
-let gameOverText, restartButton;
+let restartButton;
 let highScore = 0;
 let nextPlatformY = 400;
+
+// Variáveis para imagens e texto de game over
+let gameOverImage, recordText;
 
 function preload() {
     this.load.image('background', 'assets/fundo.jpeg');
     this.load.image('platform', 'assets/Plataforma.jpeg');
     this.load.image('player', 'assets/idle.gif');
     this.load.image('button', 'assets/Button.jpeg');
+
+    // Imagem única de game over/restart
+    this.load.image('restartBanner', 'assets/Restart.png');
 }
 
 function create() {
@@ -40,20 +46,14 @@ function create() {
     this.add.tileSprite(0, 0, 800, 6000, 'background').setOrigin(0).setScrollFactor(0);
 
     platforms = this.physics.add.staticGroup();
-
-    // Plataforma inicial
     platforms.create(200, 550, 'platform').setOrigin(0.5).refreshBody();
 
-    // Jogador
     player = this.physics.add.sprite(200, 500, 'player').setScale(1);
     player.setCollideWorldBounds(false);
     player.setBounce(0);
-
-    // 🔧 Ajuste da hitbox do personagem
     player.setSize(12, 28);
     player.setOffset(10, 5);
 
-    // Geração inicial de plataformas
     let lastY = 550;
     for (let i = 0; i < 8; i++) {
         const spacing = Phaser.Math.Between(55, 75);
@@ -81,7 +81,6 @@ function create() {
         }
 
         platforms.create(x, y, 'platform').setOrigin(0.5).refreshBody();
-
         lastY = y;
     }
     nextPlatformY = lastY;
@@ -104,11 +103,7 @@ function create() {
         fill: '#ffcc00'
     }).setScrollFactor(0);
 
-    gameOverText = this.add.text(200, 280, '', {
-        font: '30px Consolas',
-        fill: '#ff0000',
-        align: 'center'
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(999).setVisible(false);
+    // REMOVIDO gameOverText
 
     restartButton = this.add.image(200, 340, 'button')
         .setInteractive()
@@ -122,7 +117,6 @@ function create() {
         resetGameState();
     });
 
-    // Reinício com tecla R
     this.input.keyboard.on('keydown-R', () => {
         if (gameOver) {
             this.scene.restart();
@@ -130,14 +124,28 @@ function create() {
         }
     });
 
-    // Inicializa a altura máxima como posição atual
+    // Imagem única para Game Over (diminuída)
+    gameOverImage = this.add.image(200, 300, 'restartBanner')
+        .setVisible(false)
+        .setScrollFactor(0)
+        .setScale(0.35)  // diminui o tamanho da imagem
+        .setDepth(999);
+
+    recordText = this.add.text(200, 230, '🏆 Recorde!', {
+        font: '26px Consolas',
+        fill: '#ffffff'
+    })
+        .setOrigin(0.5)
+        .setScrollFactor(0)
+        .setDepth(999)
+        .setVisible(false);
+
     maxY = player.y;
 }
 
 function update() {
     if (gameOver) return;
 
-    // Movimento
     if (cursors.left.isDown) {
         player.setVelocityX(-200);
     } else if (cursors.right.isDown) {
@@ -146,18 +154,15 @@ function update() {
         player.setVelocityX(0);
     }
 
-    // Pulo
     if ((cursors.up.isDown || spaceKey.isDown) && player.body.blocked.down) {
         player.setVelocityY(-525);
     }
 
-    // Game over se cair da tela
     const bottomLimit = this.cameras.main.scrollY + 600;
     if (player.y > bottomLimit) {
         triggerGameOver(this);
     }
 
-    // Pontuação por altura
     if (player.y < maxY - 20) {
         const diff = Math.floor((maxY - player.y) / 20);
         score += diff;
@@ -165,7 +170,6 @@ function update() {
         scoreText.setText('Pontuação: ' + score);
     }
 
-    // Geração infinita de plataformas
     const camTop = this.cameras.main.scrollY - 100;
 
     while (nextPlatformY > camTop) {
@@ -194,11 +198,9 @@ function update() {
         }
 
         platforms.create(x, y, 'platform').setOrigin(0.5).refreshBody();
-
         nextPlatformY = y;
     }
 
-    // Limpa plataformas fora da tela
     platforms.getChildren().forEach((plat) => {
         if (plat.y > this.cameras.main.scrollY + 700) plat.destroy();
     });
@@ -208,8 +210,10 @@ function resetGameState() {
     score = 0;
     maxY = 0;
     gameOver = false;
-    gameOverText.setVisible(false);
+    // REMOVIDO gameOverText.setVisible
     restartButton.setVisible(false);
+    gameOverImage.setVisible(false);
+    recordText.setVisible(false);
 }
 
 function triggerGameOver(scene) {
@@ -219,13 +223,15 @@ function triggerGameOver(scene) {
     player.setVelocity(0, 0);
     player.body.enable = false;
 
-    gameOverText.setText(`Você perdeu!\nPontuação: ${score}\nPressione R para tentar novamente.`);
-    gameOverText.setVisible(true);
+    // REMOVIDO gameOverText
+
     restartButton.setVisible(true);
+    gameOverImage.setVisible(true);
 
     if (score > highScore) {
         highScore = score;
         localStorage.setItem('crazyTowerHighScore', highScore);
         highScoreText.setText(`Recorde: ${highScore}`);
+        recordText.setVisible(true);
     }
 }
