@@ -18,7 +18,7 @@ const config = {
 
 let game = new Phaser.Game(config);
 
-let player, platforms, cursors, spaceKey;
+let player, platforms, cursors, spaceKey, wasd;
 let score = 0;
 let scoreText, highScoreText;
 let maxY = 0;
@@ -26,15 +26,12 @@ let gameOver = false;
 let restartButton;
 let highScore = 0;
 let nextPlatformY = 400;
-
-// Variáveis para imagens e texto de game over
 let gameOverImage, recordText;
 
 function preload() {
     this.load.image('background', 'assets/fundo.jpeg');
     this.load.image('platform', 'assets/Plataforma.jpeg');
     this.load.image('player', 'assets/idle.gif');
-    // Carregue a imagem Restart.png como botão
     this.load.image('restartButton', 'assets/Restart.png');
 }
 
@@ -69,7 +66,6 @@ function create() {
             platforms.getChildren().forEach((plat) => {
                 const dx = Math.abs(plat.x - x);
                 const dy = Math.abs(plat.y - y);
-
                 if (dx < 70 && dy < 40) {
                     validPosition = false;
                 }
@@ -88,6 +84,13 @@ function create() {
     cursors = this.input.keyboard.createCursorKeys();
     spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    wasd = this.input.keyboard.addKeys({
+        up: Phaser.Input.Keyboard.KeyCodes.W,
+        left: Phaser.Input.Keyboard.KeyCodes.A,
+        down: Phaser.Input.Keyboard.KeyCodes.S,
+        right: Phaser.Input.Keyboard.KeyCodes.D
+    });
+
     this.cameras.main.startFollow(player);
     this.cameras.main.setBounds(0, -6000, 400, 6600);
 
@@ -105,7 +108,7 @@ function create() {
         .setInteractive()
         .setVisible(false)
         .setScrollFactor(0)
-        .setScale(0.3)  // ajuste o tamanho para ficar bom
+        .setScale(0.3)
         .setDepth(999);
 
     restartButton.on('pointerdown', () => {
@@ -120,16 +123,10 @@ function create() {
         }
     });
 
-    // Removi o gameOverImage, usando só o botão como feedback visual
-
     recordText = this.add.text(200, 230, '🏆 Recorde!', {
         font: '26px Consolas',
         fill: '#ffffff'
-    })
-        .setOrigin(0.5)
-        .setScrollFactor(0)
-        .setDepth(999)
-        .setVisible(false);
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(999).setVisible(false);
 
     maxY = player.y;
 }
@@ -137,15 +134,15 @@ function create() {
 function update() {
     if (gameOver) return;
 
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown || wasd.left.isDown) {
         player.setVelocityX(-200);
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown || wasd.right.isDown) {
         player.setVelocityX(200);
     } else {
         player.setVelocityX(0);
     }
 
-    if ((cursors.up.isDown || spaceKey.isDown) && player.body.blocked.down) {
+    if ((cursors.up.isDown || wasd.up.isDown || spaceKey.isDown) && player.body.blocked.down) {
         player.setVelocityY(-525);
     }
 
@@ -174,17 +171,14 @@ function update() {
 
         while (!validPosition && tries < maxTries) {
             x = Phaser.Math.Between(50, 300);
-
             validPosition = true;
             platforms.getChildren().forEach((plat) => {
                 const dx = Math.abs(plat.x - x);
                 const dy = Math.abs(plat.y - y);
-
                 if (dx < 70 && dy < 40) {
                     validPosition = false;
                 }
             });
-
             tries++;
         }
 
